@@ -188,7 +188,7 @@ async function load(){
     if(!r.ok) throw new Error(r.error);
     EVENTS = r.events; REPORTS = r.reports;
     // 開室日シートから来る予定(期末特訓会など)は、自習室予約で申し込む
-    EVENTS.forEach(e => { if(/^o\d/.test(e.id)) { e.need = '自習室予約'; if(!e.desc) e.desc = '参加する日は自習室予約から選んでください。'; } });
+    EVENTS.forEach(e => { if(/^o\d/.test(e.id)) { e.need = '自習室予約'; e.allIn = true; if(!e.desc) e.desc = '中高生は全員参加です。参加する日を自習室予約から予約してください。'; } });
     renderList(); renderReports();
   } catch(e) {
     $('events').innerHTML = '<p class="lead" style="margin-top:20px">予定を読み込めませんでした。少し待ってから開き直してください。</p>';
@@ -211,7 +211,7 @@ function card(e){
   const left = e.cap ? e.cap - (e.taken || 0) : null, full = left !== null && left <= 0;
   const study = e.kind === '講習・自習';
   let status;
-  if(e.need === '自習室予約') status = `<span class="pill free">自習室予約で申込</span><a class="apply" href="${ROOM_URL}" target="_blank" rel="noopener">自習室を予約する</a>`;
+  if(e.need === '自習室予約') status = `<span class="pill ${e.allIn ? 'need' : 'free'}">${e.allIn ? '全員参加・要予約' : '自習室予約で申込'}</span><a class="apply" href="${ROOM_URL}" target="_blank" rel="noopener">自習室を予約する</a>`;
   else if(e.need === '不要') status = `<span class="pill free">${esc(e.memo || '申込不要')}</span>`;
   else if(!t) status = `<span class="pill need">日程が決まったら申込開始</span>`;
   else if(full) status = `<span class="pill full">満席</span><button class="apply" disabled>満席</button>`;
