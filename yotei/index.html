@@ -187,6 +187,8 @@ async function load(){
     const r = await api({action:'getEvents'});
     if(!r.ok) throw new Error(r.error);
     EVENTS = r.events; REPORTS = r.reports;
+    // 開室日シートから来る予定(期末特訓会など)は、自習室予約で申し込む
+    EVENTS.forEach(e => { if(/^o\d/.test(e.id)) { e.need = '自習室予約'; if(!e.desc) e.desc = '参加する日は自習室予約から選んでください。'; } });
     renderList(); renderReports();
   } catch(e) {
     $('events').innerHTML = '<p class="lead" style="margin-top:20px">予定を読み込めませんでした。少し待ってから開き直してください。</p>';
