@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>マル直の予定・イベント｜学びの場マル直</title>
+<meta name="description" content="学びの場マル直の道場・イベント、講習や自習室の予定。申込もこのページからできます。">
+<meta property="og:title" content="マル直の予定・イベント">
+<meta property="og:image" content="https://manabinoba-marunao.github.io/images/ogp.png">
+<link rel="icon" href="../images/favicon.png">
+<link rel="apple-touch-icon" href="../images/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&display=swap">
+<style>
+/* layout: one phone-width column, as it will open from the LINE rich menu; a switch at top flips between the family view and the sheet behind it */
+:root{
+  --bg:#fbf6f8; --card:#ffffff; --ink:#2a1f25; --sub:#7a6871; --line:#eedde5;
+  --pink:#ff4d90; --pink-deep:#d92f74; --pink-soft:#ffe6f0;
+  --study:#2f6fb0; --study-soft:#e4eef9;
+  --free:#2f8f6a; --free-soft:#e3f4ec; --need:#d92f74;
+  --warn:#b4472f; --sheet:#f3f6f4; --sheet-head:#e2ece6;
+  --display:"Zen Maru Gothic","Hiragino Maru Gothic ProN","Hiragino Sans",sans-serif;
+  --body:"Noto Sans JP","Hiragino Sans","Yu Gothic UI",Meiryo,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1c1519; --card:#271e23; --ink:#f6eaf0; --sub:#b9a4ae; --line:#3d2f36;
+  --pink:#ff6aa3; --pink-deep:#ff86b5; --pink-soft:#3f2331;
+  --study:#8cbcf0; --study-soft:#1f2c3b;
+  --free:#6fd2a8; --free-soft:#1f3a2f; --need:#ff86b5;
+  --warn:#f09a83; --sheet:#20251f; --sheet-head:#2c3a31; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1c1519; --card:#271e23; --ink:#f6eaf0; --sub:#b9a4ae; --line:#3d2f36;
+  --pink:#ff6aa3; --pink-deep:#ff86b5; --pink-soft:#3f2331;
+  --study:#8cbcf0; --study-soft:#1f2c3b;
+  --free:#6fd2a8; --free-soft:#1f3a2f; --need:#ff86b5;
+  --warn:#f09a83; --sheet:#20251f; --sheet-head:#2c3a31; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.65;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 40px}
+.wrap{max-width:480px;margin:0 auto}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+
+.demo{margin-top:12px;font-size:12px;color:var(--sub);background:var(--card);border:1px dashed var(--line);border-radius:10px;padding:8px 12px}
+.switch{display:flex;gap:4px;margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px}
+.switch button{flex:1;border:0;background:transparent;border-radius:999px;padding:7px 6px;font-size:13px;font-weight:700;color:var(--sub)}
+.switch button[aria-pressed="true"]{background:var(--pink);color:#fff}
+
+header.top{padding-block:22px 6px;display:grid;gap:4px}
+.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--pink-deep);font-weight:700}
+h1{font-family:var(--display);font-weight:900;font-size:26px;margin:0;line-height:1.3;text-wrap:balance}
+.lead{margin:0;color:var(--sub);font-size:13px}
+
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}
+.chips button{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--sub)}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+.month{font-family:var(--display);font-weight:700;font-size:15px;color:var(--sub);margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.month::after{content:"";flex:1;height:1px;background:var(--line)}
+
+.list{display:grid;gap:12px}
+.ev{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.ev .cover{display:block;width:100%;max-width:100%;aspect-ratio:16/7;object-fit:cover}
+.ev .inner{padding:14px;display:grid;grid-template-columns:56px 1fr;gap:12px}
+.date{display:grid;justify-items:center;align-content:start;border-radius:12px;background:var(--pink-soft);padding:6px 0;font-family:var(--display);color:var(--pink-deep);text-align:center}
+.ev.study .date{background:var(--study-soft);color:var(--study)}
+.date .d{font-size:24px;font-weight:900;line-height:1.1}
+.date .m{font-size:11px;font-weight:700}
+.date .w{font-size:12px;font-weight:700}
+.date .to{font-size:11px;font-weight:700;line-height:1.3;margin-top:2px}
+.ev-main{min-width:0;display:grid;gap:6px}
+.kind{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--pink-deep)}
+.ev.study .kind{color:var(--study)}
+.ev h2{font-family:var(--display);font-size:17px;font-weight:700;margin:0;line-height:1.35}
+.meta{font-size:13px;color:var(--sub);display:flex;flex-wrap:wrap;gap:2px 12px}
+.desc{margin:0;font-size:13.5px}
+.fees{font-size:12.5px;display:flex;flex-wrap:wrap;gap:4px 10px;color:var(--sub)}
+.fees b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
+.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:2px}
+.pill{font-size:12px;font-weight:700;border-radius:999px;padding:3px 10px}
+.pill.free{background:var(--free-soft);color:var(--free)}
+.pill.need{background:var(--pink-soft);color:var(--need)}
+.pill.full{background:var(--line);color:var(--sub)}
+.seats{font-size:12px;color:var(--sub);font-variant-numeric:tabular-nums}
+.apply{margin-left:auto;border:0;background:var(--pink);color:#fff;font-weight:700;border-radius:999px;padding:8px 18px;font-size:14px}
+.ev.study .apply{background:var(--study)}
+.apply:hover{filter:brightness(.92)}
+.apply:disabled{background:var(--line);color:var(--sub);cursor:not-allowed}
+
+/* report */
+.report{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:grid;gap:10px}
+.report h2{font-family:var(--display);font-size:16px;margin:0}
+.report p{margin:0;font-size:13.5px}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.gallery img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;display:block}
+.gallery img.wide{grid-column:1/-1;aspect-ratio:4/1}
+.link{color:var(--pink-deep);font-weight:700;font-size:13px;text-decoration:none}
+a.apply{text-decoration:none;display:inline-block}
+.more{border:1px dashed var(--line);background:transparent;border-radius:12px;padding:10px;font-weight:700;color:var(--pink-deep);font-size:14px}
+.mini{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.mini .no{font-family:var(--display);font-weight:900;color:var(--pink-deep);font-size:16px;font-variant-numeric:tabular-nums}
+.mini .mt{display:grid;min-width:0}
+.mini .mt small{color:var(--sub);font-size:12px}
+.mini .arr{color:var(--sub);font-size:20px}
+
+/* form */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:18px;display:grid;gap:14px}
+.panel h3{font-family:var(--display);margin:0;font-size:18px}
+.back{justify-self:start;border:0;background:none;color:var(--pink-deep);font-weight:700;padding:0;font-size:14px}
+.field{display:grid;gap:6px}
+.field>label,.field>span{font-size:13px;font-weight:700}
+.field input[type=text],.field select{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);width:100%}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg label{border:1.5px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:2px;cursor:pointer}
+.seg label small{color:var(--sub);font-size:12px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){border-color:var(--pink);background:var(--pink-soft)}
+.seg label:has(input:focus-visible){outline:3px solid var(--pink);outline-offset:2px}
+.count{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stepper{border:1px solid var(--line);border-radius:12px;padding:8px 10px;display:flex;align-items:center;justify-content:space-between;gap:6px}
+.stepper span{font-size:13px}
+.stepper .ctl{display:flex;align-items:center;gap:8px}
+.stepper button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);background:var(--bg);font-weight:700}
+.stepper output{min-width:1.5em;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.total{display:flex;justify-content:space-between;align-items:baseline;border-top:1px dashed var(--line);padding-top:12px}
+.total b{font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums;color:var(--pink-deep)}
+.total small{color:var(--sub)}
+.submit{border:0;background:var(--pink);color:#fff;font-weight:700;border-radius:999px;padding:13px;font-size:16px}
+.err{color:var(--warn);font-size:13px;margin:0}
+.done{text-align:center;justify-items:center}
+.done .mark{width:64px;height:64px;border-radius:50%;background:var(--pink);color:#fff;display:grid;place-items:center;font-family:var(--display);font-size:30px;font-weight:900}
+.summary{width:100%;text-align:left;background:var(--bg);border-radius:12px;padding:12px;font-size:13.5px;display:grid;gap:4px}
+.summary div{display:flex;justify-content:space-between;gap:10px}
+.summary span:first-child{color:var(--sub)}
+
+.loading{text-align:center;color:var(--sub);padding:40px 0;font-size:14px}
+.date.tbd{font-size:12px;font-weight:700;line-height:1.35;padding:10px 0}
+.field textarea{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);width:100%;min-height:64px;font:inherit}
+.field small{color:var(--sub);font-size:12px;font-weight:400}
+.dates{font-size:12.5px;color:var(--sub)}
+.dates b{color:var(--ink)}
+.back-home{display:inline-block;margin-top:18px;font-size:13px;color:var(--sub)}
+.foot{margin-top:28px;font-size:12px;color:var(--sub);text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section id="family">
+    <div id="listView">
+      <header class="top">
+        <span class="eyebrow">学びの場マル直</span>
+        <h1>マル直の予定</h1>
+        <p class="lead">道場・イベントと、講習や自習の予定をまとめています。申込が必要なものは、このページから申し込めます。</p>
+      </header>
+      <div class="chips" role="group" aria-label="しぼりこみ">
+        <button data-f="all" aria-pressed="true">すべて</button>
+        <button data-f="道場・イベント" aria-pressed="false">道場・イベント</button>
+        <button data-f="講習・自習" aria-pressed="false">講習・自習</button>
+      </div>
+      <div id="events"><div class="loading">予定を読み込んでいます…</div></div>
+      <div id="reportsWrap" hidden><div class="month">開催レポート</div><div id="reports" class="list"></div></div>
+      <p class="foot">学びの場マル直 ・ 群馬県富岡市<br><a class="back-home" href="../">ホームページへ</a></p>
+    </div>
+    <div id="formView" hidden></div>
+  </section>
+</div>
+
+<script>
+const API = 'https://script.google.com/macros/s/AKfycbwJf4vp5K0-Q6nl3PVMhB7ahApnnBjmq_wbfHIaodTFvbSUU5uqXo8isxs7Fp7q6PXm/exec';
+const ROOM_URL = API + '';           // 自習室予約(同じアプリ)
+const WD = ['日','月','火','水','木','金','土'];
+let EVENTS = [], REPORTS = [], filter = 'all';
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const yen = n => n === 0 ? '無料' : Number(n).toLocaleString('ja-JP') + '円';
+const md = d => { const p = d.split('-').map(Number); const x = new Date(p[0], p[1]-1, p[2]); return {m:x.getMonth()+1, d:x.getDate(), w:WD[x.getDay()], y:x.getFullYear()}; };
+const img = p => /^https?:/.test(p) ? p : '../images/events/' + encodeURIComponent(p);
+
+async function api(body){
+  const r = await fetch(API, {method:'POST', body: JSON.stringify(body)});
+  return r.json();
+}
+async function load(){
+  try {
+    const r = await api({action:'getEvents'});
+    if(!r.ok) throw new Error(r.error);
+    EVENTS = r.events; REPORTS = r.reports;
+    renderList(); renderReports();
+  } catch(e) {
+    $('events').innerHTML = '<p class="lead" style="margin-top:20px">予定を読み込めませんでした。少し待ってから開き直してください。</p>';
+  }
+}
+
+function renderList(){
+  const list = EVENTS.filter(e => filter === 'all' || e.kind === filter);
+  const dated = list.filter(e => e.date).sort((a,b) => a.date.localeCompare(b.date));
+  const tbd = list.filter(e => !e.date);
+  const byMonth = {};
+  dated.forEach(e => { const t = md(e.date); const k = t.y + '-' + String(t.m).padStart(2,'0'); (byMonth[k] = byMonth[k] || []).push(e); });
+  let html = Object.keys(byMonth).sort().map(k => `<div class="month">${Number(k.split('-')[1])}月</div><div class="list">${byMonth[k].map(card).join('')}</div>`).join('');
+  if(tbd.length) html += `<div class="month">日程調整中・近日公開</div><div class="list">${tbd.map(card).join('')}</div>`;
+  $('events').innerHTML = html || '<p class="lead" style="margin-top:20px">この種類の予定はまだありません。</p>';
+  document.querySelectorAll('.apply[data-id]').forEach(b => b.onclick = () => openForm(b.dataset.id));
+}
+function card(e){
+  const t = e.date ? md(e.date) : null, en = e.end ? md(e.end) : null;
+  const left = e.cap ? e.cap - (e.taken || 0) : null, full = left !== null && left <= 0;
+  const study = e.kind === '講習・自習';
+  let status;
+  if(e.need === '自習室予約') status = `<span class="pill free">自習室予約で申込</span><a class="apply" href="${ROOM_URL}" target="_blank" rel="noopener">自習室を予約する</a>`;
+  else if(e.need === '不要') status = `<span class="pill free">${esc(e.memo || '申込不要')}</span>`;
+  else if(!t) status = `<span class="pill need">日程が決まったら申込開始</span>`;
+  else if(full) status = `<span class="pill full">満席</span><button class="apply" disabled>満席</button>`;
+  else if(e.need === '一般の方のみ') status = `<span class="pill free">塾生・保護者は申込なしでOK</span><button class="apply" data-id="${e.id}">一般の方の申込</button>`;
+  else status = `<span class="pill need">要申込</span>${left !== null ? `<span class="seats">残り${left}人</span>` : ''}<button class="apply" data-id="${e.id}">申し込む</button>`;
+  const fees = (e.feeOut == null && e.feeIn == null) ? '' :
+    (e.feeIn === 0 && e.feeOut === 0) ? `<span><b>参加無料</b></span>` :
+    `${e.feeIn != null ? `<span>塾生・保護者 <b>${yen(e.feeIn)}</b></span>` : ''}${e.feeOut != null ? `<span>一般 <b>${yen(e.feeOut)}</b></span>` : ''}`;
+  const dates = e.dates && e.dates.length > 1 ? `<div class="dates">開く日:<b>${e.dates.map(d => { const x = md(d); return x.m + '/' + x.d + '(' + x.w + ')'; }).join('・')}</b></div>` : '';
+  const dateBox = t
+    ? `<div class="date"><span class="m">${t.m}月</span><span class="d">${t.d}</span><span class="w">${t.w}</span>${en ? `<span class="to">〜${en.m}/${en.d}<br>(${en.w})</span>` : ''}</div>`
+    : `<div class="date tbd">日程<br>調整中</div>`;
+  return `<article class="ev ${study ? 'study' : ''}">
+    ${e.photo ? `<img class="cover" src="${esc(img(e.photo))}" alt="${esc(e.name)}の写真" loading="lazy">` : ''}
+    <div class="inner">${dateBox}
+    <div class="ev-main">
+      <span class="kind">${esc(e.kind)}</span>
+      <h2>${esc(e.name)}</h2>
+      <div class="meta">${e.time ? `<span>${esc(e.time)}</span>` : ''}${e.who ? `<span>${esc(e.who)}</span>` : ''}${e.memo && e.need !== '不要' ? `<span>${esc(e.memo)}</span>` : ''}</div>
+      ${e.desc ? `<p class="desc">${esc(e.desc)}</p>` : ''}
+      ${dates}
+      ${fees ? `<div class="fees">${fees}</div>` : ''}
+      <div class="row">${status}</div>
+    </div></div></article>`;
+}
+
+let showAll = false;
+function reportCard(r){
+  const t = r.date ? md(r.date) : null;
+  return `<article class="report">
+    <span class="kind" style="color:var(--sub)">${esc(r.series)} ${esc(r.no)}${t ? ` ・ ${t.y}年${t.m}月${t.d}日` : ''}</span>
+    <h2>${esc(r.name)}</h2>
+    ${r.who ? `<div class="meta"><span>ゲスト:${esc(r.who)}</span></div>` : ''}
+    ${r.photos.length ? `<div class="gallery">${r.photos.map((p,i) => `<img src="${esc(img(p))}" alt="${esc(r.name)}の様子 ${i+1}" loading="lazy">`).join('')}</div>` : ''}
+    ${r.text ? `<p>${esc(r.text)}</p>` : ''}
+    ${r.note ? `<a class="link" href="${esc(r.note)}" target="_blank" rel="noopener">noteでくわしく読む →</a>` : ''}
+  </article>`;
+}
+function mini(r, i){
+  const t = r.date ? md(r.date) : null;
+  return `<button class="mini" data-i="${i}"><span class="no">${esc(r.no)}</span><span class="mt"><b>${esc(r.name)}</b><small>${esc(r.who)}${t ? ` ・ ${t.y}/${t.m}/${t.d}` : ''}</small></span><span class="arr">›</span></button>`;
+}
+function renderReports(){
+  if(!REPORTS.length){ $('reportsWrap').hidden = true; return; }
+  $('reportsWrap').hidden = false;
+  const list = showAll ? REPORTS : REPORTS.slice(0,1);
+  $('reports').innerHTML = list.map((r,i) => i === 0 ? reportCard(r) : mini(r,i)).join('') +
+    (REPORTS.length > 1 ? `<button class="more" id="moreBtn">${showAll ? '閉じる' : `過去の回をすべて見る(全${REPORTS.length}回)`}</button>` : '');
+  if($('moreBtn')) $('moreBtn').onclick = () => { showAll = !showAll; renderReports(); };
+  document.querySelectorAll('.mini').forEach(m => m.onclick = () => { m.outerHTML = reportCard(REPORTS[+m.dataset.i]); });
+}
+
+let F = {};
+function openForm(id){
+  const e = EVENTS.find(x => x.id === id); const t = md(e.date); const en = e.end ? md(e.end) : null;
+  const onlyOut = e.need === '一般の方のみ';
+  F = {e, type: onlyOut ? 'out' : 'in', a: 1, c: 0};
+  $('listView').hidden = true; const v = $('formView'); v.hidden = false;
+  const fIn = e.feeIn || 0, fOut = e.feeOut || 0, free = fIn === 0 && fOut === 0;
+  v.innerHTML = `<div class="panel">
+    <button class="back" id="fBack">← 予定一覧にもどる</button>
+    <h3>${esc(e.name)}<br><small style="font-family:var(--body);font-weight:500;font-size:13px;color:var(--sub)">${t.m}月${t.d}日(${t.w})${en ? `〜${en.m}月${en.d}日(${en.w})` : ''} ${esc(e.time)}</small></h3>
+    <div class="field"><label for="fName">お名前(代表の方)</label><input type="text" id="fName" placeholder="例:黛 太郎" autocomplete="name"></div>
+    <div class="field"><span>区分</span>
+      <div class="seg" role="radiogroup">
+        ${onlyOut ? '' : `<label><input type="radio" name="fType" value="in" checked><b>塾生・保護者</b><small>${free ? '無料' : '1人 ' + yen(fIn)}</small></label>`}
+        <label><input type="radio" name="fType" value="out" ${onlyOut ? 'checked' : ''}><b>一般</b><small>${free ? '無料' : '1人 ' + yen(fOut)}</small></label>
+      </div>${onlyOut ? '<small>塾生・保護者の方は申込なしで参加できます。</small>' : ''}</div>
+    <div class="field"><span>参加する人数</span><div class="count">
+        <div class="stepper"><span>大人</span><div class="ctl"><button type="button" data-k="a" data-d="-1" aria-label="大人を1人減らす">−</button><output id="oA">1</output><button type="button" data-k="a" data-d="1" aria-label="大人を1人増やす">＋</button></div></div>
+        <div class="stepper"><span>子ども</span><div class="ctl"><button type="button" data-k="c" data-d="-1" aria-label="子どもを1人減らす">−</button><output id="oC">0</output><button type="button" data-k="c" data-d="1" aria-label="子どもを1人増やす">＋</button></div></div>
+      </div></div>
+    <div class="field"><label for="fContact">連絡先 <small>(電話番号かメール。塾生の方は空欄でOK)</small></label><input type="text" id="fContact" autocomplete="tel" placeholder="例:090-1234-5678"></div>
+    <div class="field"><label for="fNote">ひとこと <small>(任意)</small></label><textarea id="fNote" placeholder="例:初めて参加します / 子どもは小3です"></textarea></div>
+    <div class="total"><span>参加費 合計<br><small>${free ? '今回は無料です' : '当日、受付でお支払いください'}</small></span><b id="fTotal"></b></div>
+    <p class="err" id="fErr" hidden></p>
+    <button class="submit" id="fSubmit">この内容で申し込む</button>
+  </div>`;
+  $('fBack').onclick = closeForm;
+  document.querySelectorAll('input[name=fType]').forEach(r => r.onchange = () => { F.type = r.value; calc(); });
+  v.querySelectorAll('.stepper button').forEach(b => b.onclick = () => { const k = b.dataset.k; F[k] = Math.max(0, Math.min(9, F[k] + Number(b.dataset.d))); calc(); });
+  $('fSubmit').onclick = submit;
+  calc(); window.scrollTo({top: 0});
+}
+const people = () => F.a + F.c;
+const fee = () => people() * ((F.type === 'in' ? F.e.feeIn : F.e.feeOut) || 0);
+function calc(){ $('oA').textContent = F.a; $('oC').textContent = F.c; $('fTotal').textContent = yen(fee()); }
+async function submit(){
+  const name = $('fName').value.trim(), err = $('fErr');
+  const contact = $('fContact').value.trim(), note = $('fNote').value.trim();
+  if(!name){ err.textContent = 'お名前を入れてください。'; err.hidden = false; $('fName').focus(); return; }
+  if(people() === 0){ err.textContent = '人数を1人以上にしてください。'; err.hidden = false; return; }
+  if(F.type === 'out' && !contact){ err.textContent = '一般の方は連絡先を入れてください。'; err.hidden = false; $('fContact').focus(); return; }
+  const btn = $('fSubmit'); btn.disabled = true; btn.textContent = '送信中…'; err.hidden = true;
+  try {
+    const r = await api({action:'applyEvent', id: F.e.id, name, type: F.type, adults: F.a, kids: F.c, contact, note});
+    if(!r.ok) throw new Error(r.error || '申し込めませんでした');
+    const t = md(F.e.date);
+    $('formView').innerHTML = `<div class="panel done">
+      <div class="mark">✓</div>
+      <h3>申込を受け付けました</h3>
+      <div class="summary">
+        <div><span>予定</span><b>${esc(F.e.name)}</b></div>
+        <div><span>日にち</span><b>${t.m}/${t.d}(${t.w})</b></div>
+        <div><span>お名前</span><b>${esc(name)}</b></div>
+        <div><span>区分</span><b>${esc(r.typeLabel)}</b></div>
+        <div><span>人数</span><b>大人${F.a}人・子ども${F.c}人</b></div>
+        <div><span>参加費</span><b>${yen(r.fee)}${r.fee ? '(当日受付で)' : ''}</b></div>
+      </div>
+      <p class="lead">当日お会いできるのを楽しみにしています。</p>
+      <button class="back" id="dBack">← 予定一覧にもどる</button>
+    </div>`;
+    $('dBack').onclick = () => { closeForm(); load(); };
+  } catch(ex) {
+    err.textContent = ex.message; err.hidden = false; btn.disabled = false; btn.textContent = 'この内容で申し込む';
+  }
+}
+function closeForm(){ $('formView').hidden = true; $('listView').hidden = false; renderList(); window.scrollTo({top: 0}); }
+
+document.querySelectorAll('.chips button').forEach(b => b.onclick = () => { filter = b.dataset.f; document.querySelectorAll('.chips button').forEach(x => x.setAttribute('aria-pressed', x === b)); renderList(); });
+load();
+</script>
+
+</body>
+</html>
