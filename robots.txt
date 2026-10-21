@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://manabinoba-marunao.github.io/sitemap.xml
