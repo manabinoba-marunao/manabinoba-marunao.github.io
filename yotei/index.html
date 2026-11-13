@@ -189,6 +189,19 @@ async function load(){
     const r = await api({action:'getEvents'});
     if(!r.ok) throw new Error(r.error);
     EVENTS = r.events; REPORTS = r.reports;
+    // フリースタディなど、まとめて来る開室日は1日ずつのカードに分ける
+    // 時間に「(17日は19:00まで)」のように書いてあれば、その日だけ終わりの時間を変える
+    EVENTS = EVENTS.flatMap(e => {
+      if(!(e.dates && e.dates.length > 1)) return [e];
+      const notes = {};
+      String(e.time || '').replace(/(\d{1,2})日は(\d{1,2}:\d{2})まで/g, (_, d, hm) => { notes[Number(d)] = hm; });
+      const base = String(e.time || '').replace(/[（(][^)）]*[)）]/g, '').trim();
+      return e.dates.map(d => {
+        const day = Number(d.split('-')[2]);
+        const time = notes[day] ? base.replace(/〜.*$/, '〜' + notes[day]) : base;
+        return Object.assign({}, e, {id: e.id + '-' + d, date: d, dates: null, time});
+      });
+    });
     // 開室日シートから来る予定(期末特訓会など)は、自習室予約で申し込む
     EVENTS.forEach(e => { if(/^o\d/.test(e.id)) { e.need = '自習室予約'; e.allIn = true; if(!e.desc) e.desc = '中高生は全員参加です。下のボタンから予約してください。'; } });
     renderList(); renderReports();
