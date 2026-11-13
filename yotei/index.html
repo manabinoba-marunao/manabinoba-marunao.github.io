@@ -212,7 +212,9 @@ async function load(){
 
 function renderList(){
   const list = EVENTS.filter(e => filter === 'all' || e.kind === filter);
-  const dated = list.filter(e => e.date).sort((a,b) => a.date.localeCompare(b.date));
+  // 同じ日は始まる時間の早い順(「放課後」は夕方の早い時間、時間未定は最後)
+  const startMin = e => { const s = String(e.time || ''); if(/^放課後/.test(s)) return 15*60; const m = s.match(/(\d{1,2}):(\d{2})/); return m ? m[1]*60 + Number(m[2]) : 24*60; };
+  const dated = list.filter(e => e.date).sort((a,b) => a.date.localeCompare(b.date) || startMin(a) - startMin(b));
   const tbd = list.filter(e => !e.date);
   const byMonth = {};
   dated.forEach(e => { const t = md(e.date); const k = t.y + '-' + String(t.m).padStart(2,'0'); (byMonth[k] = byMonth[k] || []).push(e); });
